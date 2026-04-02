@@ -128,7 +128,7 @@ export const updateProfile = async (req, res) => {
       fullname: updatedUser.fullname,
       email: updatedUser.email,
       profilePic: updatedUser.profilePic,
-    });
+    }).select("-password");
 
 
   }catch (error) {  
