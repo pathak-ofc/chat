@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user.model.js';
+import User from '../models/User.js';
 import "dotenv/config";
 
 export const protectRoute = (req, res, next) => {
@@ -23,6 +23,6 @@ export const protectRoute = (req, res, next) => {
         next();
     } catch (error) {
         console.error('Error in protectRoute middleware:', error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Server error'});
     }
 };
