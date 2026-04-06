@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 dotenv.config();
 
 import authRoutes from './routes/auth.route.js';
+import messageRoutes from './routes/message.route.js';
 import { connectDB } from './lib/db.js';
 
 
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 
 const __dirname = path.resolve();
 

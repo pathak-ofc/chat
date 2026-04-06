@@ -2,21 +2,21 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import "dotenv/config";
 
-export const protectRoute = (req, res, next) => {
+export const protectRoute = async(req, res, next) => {
     try {
-        const token = req.cookie.jwt;
+        const token = req.cookies.jwt;
         if (!token) {
-            return res.status(401).json({ message: 'Unauthorized' });
+            return res.status(401).json({ message: 'Unauthorized no token provided' });
         }   
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if(!decoded) {
-            return res.status(401).json({ message: 'Unauthorized' });
+            return res.status(401).json({ message: 'Unauthorized invalid token' });
         }
 
-        const user = User.findById(decoded.id).select('-password');
+        const user = await User.findById(decoded.userId).select('-password');
         if (!user) {
-            return res.status(401).json({ message: 'Unauthorized' });
+            return res.status(401).json({ message: 'Unauthorized user not found' });
         }
 
         req.user = user;
