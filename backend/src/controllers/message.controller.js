@@ -1,6 +1,6 @@
 import User from '../models/User.js';
 import Message from '../models/Message.js';
-import cloudinary from '../lib/cloudinary.js';
+import cloudinary from '../lib/claudinary.js';
 export const getContacts = async (req, res) => {
     try {
         const loggedInUserId = req.user._id;
@@ -9,7 +9,7 @@ export const getContacts = async (req, res) => {
     } catch (error) {
         console.error("Error fetching contacts:", error);
         res.status(500).json({ message: "Failed to fetch contacts" });
-    }   
+    }   a
 };
 
 export const getChats = async (req, res) => {
