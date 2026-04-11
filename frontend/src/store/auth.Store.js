@@ -6,6 +6,7 @@ export const authStore = create((set) => ({
     authUser: null,
     isCheckingAuth: true,
     isSigningUp: false,
+    isLoggingIn: false,
 
     signup: async (formData) => {
         set({isSigningUp: true})
@@ -14,7 +15,7 @@ export const authStore = create((set) => ({
             set({authUser: res.data})
             toast.success("Account Created")
         }catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Something went wrong");
         }finally{
             set({isSigningUp: false})
         }
@@ -34,4 +35,17 @@ export const authStore = create((set) => ({
         }
     },
 
+    login: async (formData) => {
+        set({ isLoggingIn: true });
+
+        try {
+            const res = await axiosInstance.post("/auth/login", formData);
+            set({ authUser: res.data });
+            toast.success("Logged in successfully");
+        } catch (error) {
+            toast.error(error.response?.data?.message || "Something went wrong");
+        } finally {
+            set({ isLoggingIn: false });
+        }
+    },
 }));
