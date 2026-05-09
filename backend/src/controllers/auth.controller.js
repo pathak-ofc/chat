@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import bcrypt from 'bcryptjs';
 import { generateToken } from "../lib/utils.js";
 import { sendWelcomeEmail } from "../emails/emailHandlers.js";
+import cloudinary from '../lib/claudinary.js';
 
 
 export const signup = async (req, res) => {
@@ -119,8 +120,8 @@ export const updateProfile = async (req, res) => {
 
     const updatedUser = await User.findByIdAndUpdate(
       req.user._id,
-      { profilePic: UploadedImage.secure_url },
-      { new: true }
+      { profilePic: UploadedImage.secure_url},
+      { returnDocument: "after" }
     );
 
     res.status(200).json({
@@ -128,7 +129,7 @@ export const updateProfile = async (req, res) => {
       fullname: updatedUser.fullname,
       email: updatedUser.email,
       profilePic: updatedUser.profilePic,
-    }).select("-password");
+    });
 
 
   }catch (error) {  
