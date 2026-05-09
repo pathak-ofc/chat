@@ -21,12 +21,12 @@ const ChatPage = () => {
             <ProfileHeader />
           </div>
 
-          <div className="px-3 py-3 border-b shrink-0 border-white/10">
+          <div className="px-3 py-3 shrink-0">
             <ActiveTabSwitch />
           </div>
 
           <div className="flex-1 px-3 py-3 space-y-2 overflow-y-auto">
-            {activeTab === "chat" ? <ChatList /> : <ContactList />}
+            {activeTab === "chats" ? <ChatList /> : <ContactList />}
           </div>
         </aside>
 

@@ -7,6 +7,8 @@ export const authStore = create((set) => ({
     isCheckingAuth: true,
     isSigningUp: false,
     isLoggingIn: false,
+    isLoggingOut: false,
+    isUpddatingProfile: false,
 
     signup: async (formData) => {
         set({isSigningUp: true})
@@ -46,6 +48,34 @@ export const authStore = create((set) => ({
             toast.error(error.response?.data?.message || "Something went wrong");
         } finally {
             set({ isLoggingIn: false });
+        }
+    },
+
+    logout: async () => {
+        set({ isLoggingOut: true });
+        try {
+        await axiosInstance.post("/auth/logout");
+        set({ authUser: null });
+        toast.success("Logged out successfully");
+        } catch (error) {
+        toast.error("Error logging out");
+        console.log("Logout error:", error);
+        } finally {
+        set({ isLoggingOut: false });
+        }
+    },
+
+    updateProfile: async (data) => {
+        set({ isUpddatingProfile: true });
+        try {
+        const res = await axiosInstance.put("/auth/update-profile", data);
+        set({ authUser: res.data });
+        toast.success("Profile updated successfully");
+        } catch (error) {
+        console.log("Error in update profile:", error);
+        toast.error(error.response.data.message);
+        } finally {
+        set({ isUpddatingProfile: false });
         }
     },
 }));

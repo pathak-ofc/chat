@@ -46,7 +46,7 @@ const App = () => {
     []
   )
 
-    if (isCheckingAuth) return <PageLoader />;
+  if (isCheckingAuth) return <PageLoader />;
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#02030a] text-white">
