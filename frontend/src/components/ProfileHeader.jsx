@@ -50,8 +50,8 @@ const ProfileHeader = () => {
           />
         </div>
         <div>
-          <p className="font-semibold">{authUser?.fullname}</p>
-          <p className="text-xs text-white/60">Online</p>
+          <p className="font-semibold">{authUser?.user?.fullname}</p>
+          <p className="text-xs text-green-500">Online</p>
         </div>
       </div>
       <div className="">

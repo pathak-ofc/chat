@@ -12,6 +12,7 @@ const ChatPage = () => {
   const { selectedUser, activeTab } = chatStore();
 
   return (
+    // <><h1 className='hidden'>h</h1></>
     <div className="w-full px-4 py-6">
       <div className="mx-auto flex h-[800px] w-full max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
         

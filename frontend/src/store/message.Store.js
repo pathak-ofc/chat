@@ -2,9 +2,10 @@ import {create} from 'zustand';
 import { axiosInstance } from '../lib/axios.js';
 import toast from 'react-hot-toast';
 
+
 export const chatStore = create((set) => ({
     isUserLoading: false,
-    isMessageLoaading: false,
+    isMessageLoading: false,
     contacts: [],
     chats: [],
     messages: [],
@@ -38,9 +39,21 @@ export const chatStore = create((set) => ({
             const res = await axiosInstance.get("/messages/chats")
             set({chats: res.data})
         } catch(error){
-            toast.error(error.response?.data?.message || "Failed to fetch chats");
+            toast.error(error?.response?.data?.message || "Failed to fetch chats");
         } finally {
             set({isUserLoading: false}) 
+        }
+    },
+
+    getMessages: async(contactId) => {
+        set({isMessageLoaading: true})
+        try{
+            const res = await axiosInstance.get(`/messages/${contactId}`)
+            set({messages: res.data})
+        } catch(error){
+            toast.error(error?.response?.data?.message || "Failed to fetch messages");
+        } finally {
+            set({isMessageLoaading: false}) 
         }
     }
 }))
