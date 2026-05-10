@@ -8,10 +8,10 @@ const ActiveTabSwitch = () => {
 
   return (
     <div className="flex gap-2">
-      <button onClick={() => {setActivetab('chats')}} className={`flex-1 py-2 text-sm rounded-lg ${activeTab === 'chats' ? 'bg-white/20' : 'bg-white/5'}`}>
+      <button onClick={() => {setActivetab('chats')}} className={`flex-1 py-2 text-sm rounded-lg ${activeTab === 'chats' ? 'bg-white/15' : 'bg-white/5'}`}>
         Chats
       </button>
-      <button onClick={() => {setActivetab('contacts')}} className={`flex-1 py-2 text-sm rounded-lg ${activeTab === 'contacts' ? 'bg-white/20' : 'bg-white/5'}`}>
+      <button onClick={() => {setActivetab('contacts')}} className={`flex-1 py-2 text-sm rounded-lg ${activeTab === 'contacts' ? 'bg-white/15' : 'bg-white/5'}`}>
         Contacts
       </button>
     </div>
