@@ -10,13 +10,9 @@ const ChatContainer = () => {
   const { getMessages, selectedUser, messages, isMessageLoading } =
     chatStore();
   const { authUser } = authStore();
-  const messageEndRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (messageEndRef.current) {
-  //     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // }, [messages]);
+  // ✅ scroll container ref
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (selectedUser?._id) {
@@ -24,11 +20,27 @@ const ChatContainer = () => {
     }
   }, [selectedUser?._id, getMessages]);
 
+  // ✅ auto scroll to bottom whenever messages change
+  useEffect(() => {
+    const container = containerRef.current;
+
+    if (container) {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
+
   return (
     <>
       <ChatHeader />
 
-      <div className="flex-1 min-h-0 px-6 py-8 overflow-y-auto scroll-smooth">
+      {/* ✅ IMPORTANT: attach ref here */}
+      <div
+        ref={containerRef}
+        className="flex-1 px-6 py-8 overflow-y-auto"
+      >
         {isMessageLoading ? (
           <MessagesLoadingSkeleton />
         ) : messages.length > 0 ? (
@@ -65,7 +77,6 @@ const ChatContainer = () => {
                 </div>
               </div>
             ))}
-            <div ref={messageEndRef} />
           </div>
         ) : (
           <NoChatHistoryPlaceholder name={selectedUser?.fullname} />
