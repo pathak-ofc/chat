@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import 'dotenv/config';
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -6,11 +6,12 @@ import authRoutes from './routes/auth.route.js';
 import messageRoutes from './routes/message.route.js';
 import { connectDB } from './lib/db.js';
 import cors from 'cors';
+import { app, server } from './lib/socket.js';
 
 
 
 const PORT = process.env.PORT || 3000;
-const app = express();
+
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -38,7 +39,7 @@ if (process.env.NODE_ENV === "production") {
 const startServer = async () => {
     try {
         await connectDB();
-        app.listen(PORT, () => {
+        server.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
         });
     } catch (error) {

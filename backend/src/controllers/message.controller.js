@@ -68,21 +68,37 @@ export const sendMessage = async (req, res) => {
  
 
 export const getFriends = async (req, res) => {
-    try {
-        const loggedInUserId = req.user._id;
-
-        const chatPartnersMessages = await Message.find({
-            $or: [
-                { senderId: loggedInUserId },
-                { receiverId: loggedInUserId }
-            ]
-        });
-
-        const chatPartners = [...new Set(chatPartnersMessages.map(msg => msg.senderId.toString() === loggedInUserId.toString() ? msg.receiverId.toString() : msg.senderId.toString()))];
-        const friends = await User.find({_id: { $in: chatPartners}}).select("-password");
-        res.status(200).json(friends);
-    } catch (error) {
-        console.error("Error fetching friends:", error);
-        res.status(500).json({ message: "Failed to fetch friends" });
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "Unauthorized" });
     }
+
+    const loggedInUserId = req.user._id;
+
+    const chatPartnersMessages = await Message.find({
+      $or: [
+        { senderId: loggedInUserId },
+        { receiverId: loggedInUserId }
+      ]
+    });
+
+    const chatPartners = [
+      ...new Set(
+        chatPartnersMessages.map((msg) =>
+          msg.senderId.toString() === loggedInUserId.toString()
+            ? msg.receiverId.toString()
+            : msg.senderId.toString()
+        )
+      ),
+    ];
+
+    const friends = await User.find({
+      _id: { $in: chatPartners },
+    }).select("-password");
+
+    res.status(200).json(friends);
+  } catch (error) {
+    console.error("Error fetching friends FULL:", error);
+    res.status(500).json({ message: error.message });
+  }
 };
