@@ -17,12 +17,16 @@ const io = new Server(server, {
 
 io.use(socketAuthMiddleware);
 
-const userSocketMap = {}; // {userId:sockerId}
+export function getReceiverSocketId(userId) {
+  return userSocketMap[userId];
+}
+
+const userSocketMap = {}; // {userId:socketId}
 
 io.on("connection", (socket) => {
   console.log("A user connected", socket.user.fullname);
   const userId = socket.userId;
-  userSocketMap[userId] = socket.userId;
+  userSocketMap[userId] = socket.id;
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
 
