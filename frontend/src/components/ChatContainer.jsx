@@ -7,7 +7,7 @@ import MessageInput from "./MessageInput.jsx";
 import MessagesLoadingSkeleton from "./MessagesLoadingSkeleton.jsx";
 
 const ChatContainer = () => {
-  const { getMessages, selectedUser, messages, isMessageLoading } =
+  const { getMessages, selectedUser, messages, isMessageLoading, subscribeToMessages, unsubscribeFromMessages } =
     chatStore();
   const { authUser } = authStore();
 
@@ -18,7 +18,13 @@ const ChatContainer = () => {
     if (selectedUser?._id) {
       getMessages(selectedUser._id);
     }
-  }, [selectedUser?._id, getMessages]);
+    subscribeToMessages();
+
+    // ✅ cleanup function to unsubscribe from messages when component unmounts or selectedUser changes
+    return () => {
+      unsubscribeFromMessages();
+    };
+  }, [selectedUser?._id, getMessages, subscribeToMessages, unsubscribeFromMessages]);
 
   // ✅ auto scroll to bottom whenever messages change
   useEffect(() => {
